@@ -1,9 +1,14 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.mygdx.game.characterClass.AdventurerHandler;
+import com.mygdx.game.characterClass.CharacterHandler;
 
 /**
  * Created by Shan on 11/7/2016.
+ *
+ * Duncan is homesexueel geaard
+ *
  */
 public class Player {
 
@@ -11,24 +16,42 @@ public class Player {
 
     private String playerName;
 
+    //worden beinvloed door de charachterclass
+    private String characterClass;
+    private CharacterHandler handler;
+
+    // vieze manier:
+    // int soort;   en steek er 1 2 of 3 in
+
+    // beter;
+
+    private int health;
+    private int attackSpeed;
+    private int movenentSpeed;
+
+
     private int currentLevel;
     private int currentEXP;
 
-    private String characterClass;
+
 
     private int currentScore;
     private int highScore;
 
 
-    public Player(Body playerBody, String playerName, int currentLevel, int currentEXP, String characterClass, int currentScore, int highScore) {
+    public Player(Body playerBody, String playerName, int health, int attackSpeed, int movenentSpeed, int currentLevel, int currentEXP, String characterClass, int currentScore, int highScore) {
 
         //Voor uit database halen
 
+
         this.playerBody = playerBody;
         this.playerName = playerName;
+        this.health = health;
+        this.attackSpeed = attackSpeed;
+        this.movenentSpeed = movenentSpeed;
         this.currentLevel = currentLevel;
         this.currentEXP = currentEXP;
-        this.characterClass = characterClass;
+
         this.currentScore = currentScore;
         this.highScore = highScore;
     }
@@ -41,17 +64,17 @@ public class Player {
         this.playerName = playerName;
         currentLevel = 1;
         currentEXP = 0;
-
-        characterClass = "Adventurer";
-
         currentScore = 0;
         highScore = 0;
 
-        
+
+        handler= new AdventurerHandler();
+        addBonus();
+
+
 
 
     }
-
 
     public Body getPlayerBody() {
         return playerBody;
@@ -143,4 +166,41 @@ public class Player {
                 + neededExpCalc()+ ", zijn highscore is " + highScore;
     }
 
+
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getAttackSpeed() {
+        return attackSpeed;
+    }
+
+    public void setAttackSpeed(int attackSpeed) {
+        this.attackSpeed = attackSpeed;
+    }
+
+    public int getMovenentSpeed() {
+        return movenentSpeed;
+    }
+
+    public void setMovenentSpeed(int movenentSpeed) {
+        this.movenentSpeed = movenentSpeed;
+    }
+
+
+    public void addBonus(){
+
+        handler.addBonus(this);
+
+    }
+
+    public void changeClass(CharacterHandler newHandler){
+        handler = newHandler;
+        addBonus();
+    }
 }
